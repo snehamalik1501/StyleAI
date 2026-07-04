@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>StyleAI — Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">STYLE<span>AI</span></div>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <span class="sidebar-section-label">Main Menu</span>
+      <button class="snav-btn on" data-tab="home"><span class="snav-ico">📊</span> Dashboard</button>
+      <button class="snav-btn" data-tab="upload"><span class="snav-ico">📤</span> Upload Outfit</button>
+      <button class="snav-btn" data-tab="inventory"><span class="snav-ico">👗</span> Wardrobe</button>
+      <button class="snav-btn" data-tab="prefs"><span class="snav-ico">❤️</span> Preferences</button>
+
+<a href="/logout" class="snav-btn logout-btn">
+    <span class="snav-ico">🚪</span>
+    Logout
+</a>
+
+</nav>
+
+<div class="sidebar-fashion">
+    <img
+        src="{{ url_for('static', filename='images/sidebar-fashion.png') }}"
+        alt="Fashion Illustration">
+</div>
+
+</aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div style="font-size:.82rem;color:var(--muted)" id="topbar-breadcrumb">Dashboard</div>
+      <div class="topbar-right">
+        <button class="topbar-notif" title="Notifications">🔔</button>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <div class="topbar-avatar">{{ user_name[0].upper() }}</div>
+          <span class="topbar-username">Hi, {{ user_name }}</span>
+        </div>
+        <button class="topbar-btn" onclick="setTab('upload')">📤 Upload New Outfit</button>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <div id="view-home" class="view active">
+        <div class="greeting">
+          <p class="greeting-text">Good Morning, {{ user_name }}! 🌸</p>
+          <p class="greeting-sub">Ready to style your outfit today?</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-ico blush">👗</div><div><div class="stat-val">{{ analyses_count }}</div><div class="stat-label">Outfits Analysed</div></div></div>
+          <div class="stat-card"><div class="stat-ico sage">👜</div><div><div class="stat-val">{{ accessories|length }}</div><div class="stat-label">Wardrobe Items</div></div></div>
+          <div class="stat-card"><div class="stat-ico gold">✨</div><div><div class="stat-val">{{ analyses_count }}</div><div class="stat-label">Looks Created</div></div></div>
+          <div class="stat-card"><div class="stat-ico mauve">🛒</div><div><div class="stat-val">0</div><div class="stat-label">Orders Placed</div></div></div>
+        </div>
+
+<div class="section-hdr">
+    <p class="section-title">Recent Activity</p>
+</div>
+
+{% if recent_analyses|length == 0 %}
+
+<div class="empty">
+    <div class="eico">📷</div>
+
+    <p>No recent activity</p>
+
+    <p class="esub">
+        Upload an outfit or add accessories
+        to start building your style history.
+    </p>
+</div>
+
+{% else %}
+
+<div class="activity-grid">
+
+{% for item in recent_analyses %}
+
+<div class="reco-card">
+
+    <div class="reco-img">
+        <img src="{{ item.image_url }}">
+    </div>
+
+    <div class="reco-info">
+
+        <p class="reco-name">
+            ✨ Outfit Analyzed
+        </p>
+
+        <p class="reco-price">
+            {{ item.created_at.strftime('%b %d, %Y') }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+<div class="section-hdr" style="margin-top:1.5rem">
+    <p class="section-title">Top Style Recommendations For You</p>
+    <button class="view-all" onclick="setTab('results')">View All</button>
+</div>
+
+<div class="reco-grid">
+          {% if accessories %}
+            {% for acc in accessories[:4] %}
+            <div class="reco-card">
+              <div class="reco-img"><img src="{{ acc.image_url }}" alt="{{ acc.type }}" /></div>
+              <div class="reco-info">
+                <p class="reco-name">{{ acc.type }}{% if acc.attributes and acc.attributes.style %} — {{ acc.attributes.style }}{% endif %}</p>
+                <p class="reco-price">In your wardrobe</p>
+                <span class="reco-platform saved">Saved ✓</span>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="reco-card"><div class="reco-img">💍</div><div class="reco-info"><p class="reco-name">Gold Drop Earrings</p><p class="reco-price">₹1,299</p><span class="reco-platform amazon">Amazon</span></div></div>
+            <div class="reco-card"><div class="reco-img">📿</div><div class="reco-info"><p class="reco-name">Pearl Necklace</p><p class="reco-price">₹1,899</p><span class="reco-platform myntra">Myntra</span></div></div>
+            <div class="reco-card"><div class="reco-img">👜</div><div class="reco-info"><p class="reco-name">Beige Handbag</p><p class="reco-price">₹2,499</p><span class="reco-platform flipkart">Flipkart</span></div></div>
+            <div class="reco-card"><div class="reco-img">👠</div><div class="reco-info"><p class="reco-name">Nude Heels</p><p class="reco-price">₹1,799</p><span class="reco-platform amazon">Amazon</span></div></div>
+          {% endif %}
+        </div>
+      </div>
+
+<div id="view-upload" class="view">
+
+    <div class="studio-header">
+        <h1 class="studio-title">Style Studio</h1>
+        <p class="studio-subtitle">
+            Upload your outfit and let your AI stylist do the rest
+        </p>
+    </div>
+
+    <div class="studio-upload-card">
+
+        <input
+            type="file"
+            id="outfit-file"
+            accept="image/*"
+            style="display:none"
+        />
+
+        <div class="studio-upload-inner" id="dz">
+
+            <div class="dph" id="dph">
+
+                <div class="studio-camera">
+                    📷
+                </div>
+
+                <p class="studio-main-text">
+                    Drop your outfit image here or click to upload
+                </p>
+
+                <p class="studio-small-text">
+                    JPG, PNG, WEBP — any outfit photo works
+                </p>
+
+                <button
+                    class="studio-upload-btn"
+                    onclick="document.getElementById('outfit-file').click()"
+                >
+                    ☁ Choose Image
+                </button>
+
+            </div>
+
+            <img
+    id="outfit-preview"
+    style="display:none"
+    alt="Outfit preview"
+/>
+
+<div
+    id="upload-actions"
+    style="
+        display:none;
+        justify-content:center;
+        gap:12px;
+        margin-top:20px;
+    "
+>
+
+    <button
+        id="analyze-btn"
+        class="studio-upload-btn"
+    >
+        ✨ Analyze Outfit
+    </button>
+
+    <button
+        id="remove-outfit"
+        class="btn-ghost"
+    >
+        Remove
+    </button>
+
+</div>
+
+        </div>
+
+    </div>
+
+    <div class="style-around-card">
+
+    <div class="style-around-header">
+
+        <h3>
+            ✨ Style Around My Accessories
+        </h3>
+
+        <p>
+            Already decided some accessories?
+            Select them and StyleAI will
+            build the rest of the look around them.
+        </p>
+
+    </div>
+
+    <div
+        id="selected-accessories-panel"
+        class="style-around-grid"
+    ></div>
+
+</div>
+
+    <div class="studio-profile-card">
+
+        <div class="profile-left">
+
+            <p class="plabel">
+                CURRENT STYLE PROFILE
+            </p>
+
+            <div
+                class="ppills"
+                id="pref-pills-display"
+            ></div>
+
+            <button
+                class="edit-pref-btn""
+                onclick="setTab('prefs')"
+            >
+                ✨ Edit Preferences
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+      <div id="view-inventory" class="view">
+        <div class="page-hdr">
+
+    <div>
+        <h1 class="page-title">Your Wardrobe</h1>
+        <p class="page-sub" id="inv-count">
+            {{ accessories|length }} accessories saved
+        </p>
+      <div id="category-pills"></div>
+    </div>
+
+    <div class="wardrobe-right">
+
+        <button
+            class="btn-primary"
+            onclick="openTypePicker()"
+        >
+            + Add Accessory
+        </button>
+
+        <div class="wardrobe-controls">
+
+            <input
+                type="text"
+                id="wardrobe-search"
+                placeholder="🔍 Search accessories..."
+            >
+
+            <select id="wardrobe-filter">
+                <option value="all">All Categories</option>
+                <option value="Earrings">Earrings</option>
+                <option value="Necklace">Necklace</option>
+                <option value="Bracelet">Bracelet</option>
+                <option value="Ring">Ring</option>
+                <option value="Handbag">Handbag</option>
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="wardrobe-sections"></div>
+      </div>
+
+      <div id="view-prefs" class="view">
+        <h1 class="page-title">Style Preferences</h1>
+        <p class="page-sub">Saved automatically — influences every recommendation</p>
+        <div class="prefs-wrap" id="prefs-wrap"></div>
+        <div style="margin-top:1.75rem"><button class="btn-primary" onclick="setTab('upload')">Save &amp; Continue →</button></div>
+      </div>
+
+      <div id="view-results" class="view">
+        <div id="results-content">
+          <div class="empty">
+            <div class="eico">✨</div>
+            <p>No results yet</p>
+            <p class="esub">Upload an outfit to get AI styling recommendations</p>
+            <button class="btn-primary" onclick="setTab('upload')">Go to Studio</button>
+          </div>
+        </div>
+      </div>
+        <div id="view-full-look" class="view">
+
+    <div class="full-look-page">
+
+        <h1>
+            Build Your Complete Look
+        </h1>
+
+        <div id="full-look-content">
+
+        </div>
+
+    </div>
+
+</div>
+        <div id="view-mood-board" class="view">
+
+    <div class="mood-board-page">
+
+        <h1 class="board-title">
+            ✨ Complete Look Board
+        </h1>
+
+        <div id="mood-board-container"></div>
+
+    </div>
+
+</div>
+
+    </main>
+  </div>
+</div>
+
+<div class="overlay" id="modal-type" style="display:none" onclick="closeModals()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <p class="modal-title">What type of accessory?</p>
+    <div class="tgrid" id="type-grid"></div>
+    <button class="btn-ghost" style="margin-top:1rem;width:100%" onclick="closeModals()">Cancel</button>
+  </div>
+</div>
+<div class="overlay" id="modal-upload" style="display:none" onclick="closeModals()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <p class="modal-title" id="modal-upload-title">Upload accessory photo</p>
+    <form id="inv-upload-form" enctype="multipart/form-data">
+      <input type="hidden" id="inv-type-input" name="type" />
+      <div class="inv-upload-area" onclick="document.getElementById('inv-file').click()">
+        <img id="inv-preview-img" class="inv-preview-img" style="display:none" alt="Preview" />
+        <p id="inv-upload-prompt">🌸 Click to choose a photo of your accessory</p>
+        <p class="inv-filename" id="inv-filename"></p>
+      </div>
+      <input type="file" id="inv-file" name="image" accept="image/*" style="display:none" />
+    </form>
+    <button class="btn-primary" id="upload-submit-btn" onclick="submitAccessory()" style="width:100%;margin-top:.5rem">Upload &amp; Recognize</button>
+    <button class="btn-ghost" onclick="closeModals()" style="width:100%;margin-top:.5rem">Cancel</button>
+  </div>
+</div>
+
+<script>
+  const SERVER_ACCESSORIES = {{ accessories | tojson }};
+  const SERVER_PREFS = {{ prefs | tojson if prefs else '{}' }};
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

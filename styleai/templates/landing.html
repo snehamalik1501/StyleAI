@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>StyleAI — Elevate Your Style With AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body id="top">
+<div class="landing">
+
+  <nav class="land-nav">
+    <div class="land-logo">STYLE<span>AI</span></div>
+    <div class="land-links">
+      <a href="#top" class="land-link">Home</a>
+      <a href="#features" class="land-link">Features</a>
+      <a href="#how" class="land-link">How It Works</a>
+    </div>
+    <a href="/register" class="land-cta">Get Started</a>
+  </nav>
+
+  <div class="land-hero">
+
+    <div class="land-hero-text">
+      <p class="land-eyebrow">Your Personal AI Stylist</p>
+
+      <h1 class="land-h1">
+        Discover The Perfect<br>
+        <em>Accessories</em> For<br>
+        Every Outfit
+      </h1>
+
+      <p class="land-desc">
+        Upload your outfit and get personalized accessory recommendations from your own wardrobe or shop online within your budget.
+      </p>
+
+      <div class="land-btns">
+        <a href="/register" class="land-btn-dark">Get Started</a>
+        <a href="#how" class="land-btn-ghost">▶ See How It Works</a>
+      </div>
+    </div>
+
+    <div class="land-hero-img">
+        <img src="{{ url_for('static', filename='images/hero-fashion.png') }}"
+             alt="StyleAI Outfit">
+    </div>
+
+</div>
+
+<div class="land-features" id="features">
+    <div class="land-feat">
+      <div class="land-feat-ico">🧠</div>
+      <p class="land-feat-title">AI Outfit Analysis</p>
+      <p class="land-feat-desc">Advanced AI analyzes your outfit for colors, style, occasion, aesthetic and then recommends perfectly.</p>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">👜</div>
+      <p class="land-feat-title">Personal Wardrobe</p>
+      <p class="land-feat-desc">Upload and organize your accessories in one smart digital wardrobe with AI recognition.</p>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">✨</div>
+      <p class="land-feat-title">Smart Recommendations</p>
+      <p class="land-feat-desc">Get both preferred and AI-recommended suggestions ranked by compatibility score.</p>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">🛒</div>
+      <p class="land-feat-title">Shop Online</p>
+      <p class="land-feat-desc">Find matching accessories online within your budget with direct Flipkart and Amazon links.</p>
+    </div>
+  </div>
+
+  <div class="land-how" id="how">
+    <p class="land-section-label">Simple &amp; Smart</p>
+    <h2 class="land-section-title">How It Works</h2>
+    <div class="land-steps">
+      <div class="land-step">
+        <div class="land-step-num">📸</div>
+        <p class="land-step-title">Upload Outfit</p>
+        <p class="land-step-desc">Take a photo of your outfit or upload an existing one from your gallery.</p>
+      </div>
+      <div class="land-step">
+        <div class="land-step-num">⚙️</div>
+        <p class="land-step-title">Set Preferences</p>
+        <p class="land-step-desc">Choose your style, budget and accessory preferences once.</p>
+      </div>
+      <div class="land-step">
+        <div class="land-step-num">✨</div>
+        <p class="land-step-title">Get Recommendations</p>
+        <p class="land-step-desc">Receive personalized accessory suggestions in seconds.</p>
+      </div>
+      <div class="land-step">
+        <div class="land-step-num">🛍️</div>
+        <p class="land-step-title">Shop &amp; Style</p>
+        <p class="land-step-desc">Shop online or use items from your own wardrobe.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

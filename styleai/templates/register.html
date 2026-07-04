@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>StyleAI — Create Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+<div class="auth-page">
+<div class="auth-left"></div>
+  <div class="auth-right">
+    <div class="auth-card">
+      <p class="login-mini">
+ YOUR PERSONAL AI STYLIST
+</p>
+
+<div class="auth-logo">
+STYLE<span>AI</span>
+</div>
+
+<h1 class="auth-title">
+Create Your <span>Account</span>
+</h1>
+
+<p class="auth-sub">
+Discover accessories perfectly matched to every outfit.
+</p>
+      <form method="POST" action="/register">
+        <div class="field">
+          <label class="field-label">Full Name</label>
+          <div class="field-wrap">
+            <span class="field-icon">👤</span>
+            <input class="field-input" type="text" name="name" required placeholder="Priya Sharma" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Email Address</label>
+          <div class="field-wrap">
+            <span class="field-icon">✉</span>
+            <input class="field-input" type="email" name="email" required placeholder="you@example.com" />
+          </div>
+        </div>
+<div class="field">
+    <label class="field-label">Password</label>
+
+    <div class="field-wrap password-wrap">
+        <span class="field-icon">🔒</span>
+
+        <input
+            class="field-input"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required>
+
+        <span class="toggle-password" onclick="togglePassword()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+<path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"
+stroke="#BFA2F5" stroke-width="2"/>
+<circle cx="12" cy="12" r="3" stroke="#BFA2F5" stroke-width="2"/>
+</svg>
+</span>
+    </div>
+</div>
+        <button class="auth-submit" type="submit">Create Account</button>
+      </form>
+      <p class="auth-footer">Already have an account? <a href="/login" class="auth-link-sm">Log in</a></p>
+
+    </div>
+  </div>
+</div>
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}
+</script>
+</body>
+</html>

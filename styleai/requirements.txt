@@ -1,0 +1,6 @@
+flask
+flask-bcrypt
+mysql-connector-python
+anthropic
+cloudinary
+python-dotenv
